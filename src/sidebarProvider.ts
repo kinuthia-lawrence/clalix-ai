@@ -374,15 +374,11 @@ export class SidebarProvider
       </head>
       <body>
         <div class="header">
-          <h1>
-            <div class="icon">⚡</div>
-            Clalix AI
-          </h1>
+          <h1>Clalix AI</h1>
         </div>
 
         <div class="chat-container" id="chatContainer">
           <div class="empty-state">
-            <div class="empty-state-icon">💬</div>
             <h2>Start a conversation</h2>
             <p>Ask anything and get instant answers powered by local AI</p>
           </div>
@@ -459,15 +455,10 @@ export class SidebarProvider
             const messageDiv = document.createElement('div');
             messageDiv.className = \`message \${role}\`;
 
-            const avatarDiv = document.createElement('div');
-            avatarDiv.className = \`message-avatar \${role}\`;
-            avatarDiv.textContent = role === 'user' ? '👤' : '⚡';
-
             const contentDiv = document.createElement('div');
             contentDiv.className = 'message-content';
             contentDiv.textContent = content;
 
-            messageDiv.appendChild(avatarDiv);
             messageDiv.appendChild(contentDiv);
 
             chatContainer.appendChild(messageDiv);
@@ -481,15 +472,10 @@ export class SidebarProvider
             messageDiv.className = 'message assistant';
             messageDiv.id = 'loading-message';
 
-            const avatarDiv = document.createElement('div');
-            avatarDiv.className = 'message-avatar assistant';
-            avatarDiv.textContent = '⚡';
-
             const contentDiv = document.createElement('div');
             contentDiv.className = 'loading-indicator';
             contentDiv.innerHTML = '<div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div>';
 
-            messageDiv.appendChild(avatarDiv);
             messageDiv.appendChild(contentDiv);
 
             chatContainer.appendChild(messageDiv);
@@ -506,13 +492,7 @@ export class SidebarProvider
           }
 
           function clearChat() {
-            chatContainer.innerHTML = \`
-              <div class="empty-state">
-                <div class="empty-state-icon">💬</div>
-                <h2>Start a conversation</h2>
-                <p>Ask anything and get instant answers powered by local AI</p>
-              </div>
-            \`;
+            chatContainer.innerHTML = '<div class="empty-state"><h2>Start a conversation</h2><p>Ask anything and get instant answers powered by local AI</p></div>';
           }
 
           window.addEventListener('message', event => {

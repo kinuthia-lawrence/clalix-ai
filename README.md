@@ -1,71 +1,100 @@
-# clalix-ai README
+# Clalix AI
 
-This is the README for your extension "clalix-ai". After writing up a brief description, we recommend including the following sections.
+A lightweight VS Code extension for offline AI assistance powered by [Ollama](https://ollama.ai). Ask questions and get instant answers without needing internet connectivity.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+🚀 **Local AI Assistance** - Run AI models locally using Ollama for complete privacy and offline functionality
 
-For example if there is an image subfolder under your extension project workspace:
+💬 **Chat Interface** - Clean, responsive chat UI similar to GitHub Copilot Ask
 
-\!\[feature X\]\(images/feature-x.png\)
+⚡ **Real-time Streaming** - Watch responses appear character-by-character as they're generated
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+📝 **Code Block Support** - Beautifully formatted code blocks with syntax highlighting and one-click copy button
+
+⏱️ **Execution Timing** - See how long each response took to generate
+
+🔒 **Offline-First** - No cloud dependencies, everything runs locally on your machine
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- **Docker** - Running Ollama in a Docker container
+- **Ollama** - Docker image with AI models
 
-## Extension Settings
+### Quick Setup
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+1. Install [Docker](https://www.docker.com/)
 
-For example:
+2. Run Ollama container:
+```bash
+docker run -d --name ollama -p 11434:11434 ollama/ollama
+```
 
-This extension contributes the following settings:
+3. Pull a model (example with qwen2.5-coder:3b):
+```bash
+docker exec ollama ollama pull qwen2.5-coder:3b
+```
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+## Installation
 
-## Known Issues
+1. Compile and package the extension:
+```bash
+npm install
+npm run compile
+npm install -g @vscode/vsce
+vsce package
+```
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+2. Install in VS Code:
+```bash
+code --install-extension clalix-ai-0.0.1.vsix
+```
+
+3. Ensure Ollama container is running, then open the Clalix AI panel in the sidebar
+
+## Usage
+
+- **Send Message**: Click Send button or press `Ctrl+Enter` (Windows/Linux) / `Cmd+Enter` (macOS)
+- **Copy Code**: Click the "Copy" button in any code block
+- **Clear Chat**: Click the Clear button to reset conversation history
+
+## Configuration
+
+The extension connects to Ollama at `http://localhost:11434`. The current model is set to `qwen2.5-coder:3b` in the code.
+
+To use a different model, edit `src/ollama.ts` and change the `MODEL` constant:
+```typescript
+const MODEL = "your-model-name";
+```
+
+Then recompile and reinstall the extension.
+
+## Known Limitations
+
+- Currently configured for `qwen2.5-coder:3b` model - CPU-optimized for speed
+- Requires Ollama running locally on port 11434
+- No model selection UI yet (planned for future releases)
+- Streaming only works with models that support SSE
+
+## Tips for Best Performance
+
+- Use CPU-optimized models like `qwen2.5-coder:3b` for faster responses
+- Keep your Docker container running in the background
+- For longer responses, be patient as it streams character-by-character
+- Code blocks render after the full response completes
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Initial release with:
+- Real-time streaming responses from local Ollama
+- GitHub Copilot Ask-like chat interface
+- Code block rendering with copy button
+- Response execution timing in minutes/seconds
+- Offline-first architecture
+- Clean, minimal UI
 
 ---
 
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+**Enjoy local AI assistance with Clalix AI! 🚀**
