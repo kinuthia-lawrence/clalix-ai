@@ -4,17 +4,17 @@ A lightweight VS Code extension for offline AI assistance powered by [Ollama](ht
 
 ## Features
 
-🚀 **Local AI Assistance** - Run AI models locally using Ollama for complete privacy and offline functionality
+**Local AI Assistance** - Run AI models locally using Ollama for complete privacy and offline functionality
 
-💬 **Chat Interface** - Clean, responsive chat UI similar to GitHub Copilot Ask
+**Chat Interface** - Clean, responsive chat UI similar to GitHub Copilot Ask
 
-⚡ **Real-time Streaming** - Watch responses appear character-by-character as they're generated
+**Real-time Streaming** - Watch responses appear character-by-character as they're generated
 
-📝 **Code Block Support** - Beautifully formatted code blocks with syntax highlighting and one-click copy button
+**Code Block Support** - Beautifully formatted code blocks with syntax highlighting and one-click copy button
 
-⏱️ **Execution Timing** - See how long each response took to generate
+**Execution Timing** - See how long each response took to generate
 
-🔒 **Offline-First** - No cloud dependencies, everything runs locally on your machine
+**Offline-First** - No cloud dependencies, everything runs locally on your machine
 
 ## Requirements
 
@@ -24,13 +24,14 @@ A lightweight VS Code extension for offline AI assistance powered by [Ollama](ht
 ### Quick Setup
 
 1. Install [Docker](https://www.docker.com/)
-
 2. Run Ollama container:
+
 ```bash
 docker run -d --name ollama -p 11434:11434 ollama/ollama
 ```
 
 3. Pull a model (example with qwen2.5-coder:3b):
+
 ```bash
 docker exec ollama ollama pull qwen2.5-coder:3b
 ```
@@ -38,6 +39,7 @@ docker exec ollama ollama pull qwen2.5-coder:3b
 ## Installation
 
 1. Compile and package the extension:
+
 ```bash
 npm install
 npm run compile
@@ -46,11 +48,13 @@ vsce package
 ```
 
 2. Install in VS Code:
+
 ```bash
 code --install-extension clalix-ai-0.0.1.vsix
 ```
 
 3. Ensure Ollama container is running, then open the Clalix AI panel in the sidebar
+
 
 ## Usage
 
@@ -63,6 +67,7 @@ code --install-extension clalix-ai-0.0.1.vsix
 The extension connects to Ollama at `http://localhost:11434`. The current model is set to `qwen2.5-coder:3b` in the code.
 
 To use a different model, edit `src/ollama.ts` and change the `MODEL` constant:
+
 ```typescript
 const MODEL = "your-model-name";
 ```
@@ -88,6 +93,7 @@ Then recompile and reinstall the extension.
 ### 0.0.1
 
 Initial release with:
+
 - Real-time streaming responses from local Ollama
 - GitHub Copilot Ask-like chat interface
 - Code block rendering with copy button
@@ -97,4 +103,4 @@ Initial release with:
 
 ---
 
-**Enjoy local AI assistance with Clalix AI! 🚀**
+**Enjoy local AI assistance with Clalix AI!**

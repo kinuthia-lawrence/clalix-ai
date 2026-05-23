@@ -3,7 +3,10 @@
   "displayName": "clalix-ai",
   "description": "an offline chatembended ai support",
   "version": "0.0.1",
-
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kinuthia-lawrence/clalix-ai.git"
+  },
   "engines": {
     "vscode": "^1.120.0"
   },
