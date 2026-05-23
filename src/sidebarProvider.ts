@@ -16,12 +16,9 @@ export class SidebarProvider
 
     webviewView.webview.options = {
       enableScripts: true,
-      localResourceRoots: [
-        vscode.Uri.joinPath(this._extensionUri, "media"),
-      ],
     };
 
-    webviewView.webview.html = this.getHtml(webviewView.webview);
+    webviewView.webview.html = this.getHtml();
 
     webviewView.webview.onDidReceiveMessage(
       async (message) => {
@@ -56,13 +53,7 @@ export class SidebarProvider
     );
   }
 
-  private getHtml(webview: vscode.Webview) {
-    const userIconUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "media", "user.svg")
-    );
-    const aiIconUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "media", "icon.png")
-    );
+  private getHtml() {
 
     return `
       <!DOCTYPE html>
@@ -97,6 +88,22 @@ export class SidebarProvider
           .header h1 {
             font-size: 18px;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+
+          .header .icon {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
           }
 
           .chat-container {
@@ -141,13 +148,18 @@ export class SidebarProvider
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            overflow: hidden;
+            font-size: 14px;
+            font-weight: 600;
           }
 
-          .message-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+          .message-avatar.user {
+            background: var(--vscode-button-background);
+            color: var(--vscode-button-foreground);
+          }
+
+          .message-avatar.assistant {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
           }
 
           .message-content {
@@ -179,77 +191,14 @@ export class SidebarProvider
             font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
           }
 
-          .code-block {
+          .message-content pre {
             background: var(--vscode-textCodeBlock-background);
             padding: 12px;
             border-radius: 4px;
             overflow-x: auto;
-            margin: 8px 0;
+            margin-top: 8px;
             font-size: 12px;
             font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
-            border: 1px solid var(--vscode-panel-border);
-            position: relative;
-          }
-
-          .code-block pre {
-            margin: 0;
-            overflow-x: auto;
-          }
-
-          .code-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--vscode-panel-border);
-          }
-
-          .code-language {
-            font-size: 11px;
-            color: var(--vscode-descriptionForeground);
-            font-weight: 500;
-            text-transform: uppercase;
-          }
-
-          .copy-btn {
-            padding: 4px 8px;
-            background: var(--vscode-button-background);
-            color: var(--vscode-button-foreground);
-            border: none;
-            border-radius: 4px;
-            font-size: 11px;
-            cursor: pointer;
-            transition: all 0.2s;
-          }
-
-          .copy-btn:hover {
-            background: var(--vscode-button-hoverBackground);
-          }
-
-          .copy-btn.copied {
-            background: var(--vscode-testing-iconPassed);
-          }
-
-          .message-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            max-width: 85%;
-          }
-
-          .message.user .message-wrapper {
-            align-items: flex-end;
-          }
-
-          .message.assistant .message-wrapper {
-            align-items: flex-start;
-          }
-
-          .message-time {
-            font-size: 11px;
-            color: var(--vscode-descriptionForeground);
-            margin-top: 4px;
           }
 
           .loading-indicator {
@@ -299,6 +248,12 @@ export class SidebarProvider
             gap: 8px;
           }
 
+          .input-wrapper {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+          }
+
           textarea {
             flex: 1;
             padding: 10px 12px;
@@ -323,21 +278,30 @@ export class SidebarProvider
             color: var(--vscode-input-placeholderForeground);
           }
 
-          #sendBtn {
-            padding: 8px 12px;
-            background: var(--vscode-button-background);
-            color: var(--vscode-button-foreground);
+          .button-group {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+          }
+
+          button {
+            padding: 10px 16px;
             border: none;
             border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
             align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            flex-shrink: 0;
-            font-size: 18px;
+            gap: 6px;
+            white-space: nowrap;
+          }
+
+          #sendBtn {
+            background: var(--vscode-button-background);
+            color: var(--vscode-button-foreground);
+            padding: 10px 20px;
           }
 
           #sendBtn:hover:not(:disabled) {
@@ -347,6 +311,17 @@ export class SidebarProvider
           #sendBtn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+          }
+
+          #clearBtn {
+            background: transparent;
+            color: var(--vscode-button-foreground);
+            border: 1px solid var(--vscode-button-border);
+            padding: 10px 12px;
+          }
+
+          #clearBtn:hover:not(:disabled) {
+            background: var(--vscode-button-hoverBackground);
           }
 
           .empty-state {
@@ -399,7 +374,10 @@ export class SidebarProvider
       </head>
       <body>
         <div class="header">
-          <h1>Clalix AI</h1>
+          <h1>
+            <div class="icon">⚡</div>
+            Clalix AI
+          </h1>
         </div>
 
         <div class="chat-container" id="chatContainer">
@@ -411,18 +389,22 @@ export class SidebarProvider
         </div>
 
         <div class="input-container">
-          <textarea id="prompt" placeholder="Ask me anything... (Ctrl/Cmd + Enter to send)"></textarea>
-          <button id="sendBtn" title="Send message">
-            ↑
-          </button>
+          <div class="input-wrapper">
+            <textarea id="prompt" placeholder="Ask me anything... (Ctrl/Cmd + Enter to send)"></textarea>
+          </div>
+          <div class="button-group">
+            <button id="sendBtn" onclick="sendPrompt()">
+              <span>Send</span>
+            </button>
+            <button id="clearBtn" onclick="clearChat()" title="Clear chat history">
+              <span>Clear</span>
+            </button>
+          </div>
         </div>
 
         <script>
           const vscode = acquireVsCodeApi();
           let isLoading = false;
-          const userIconUri = \`${userIconUri}\`;
-          const aiIconUri = \`${aiIconUri}\`;
-          let messageStartTime = 0;
 
           const promptEl = document.getElementById('prompt');
           const sendBtn = document.getElementById('sendBtn');
@@ -442,20 +424,12 @@ export class SidebarProvider
             }
           });
 
-          // Send button click handler
-          sendBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            sendPrompt();
-          });
-
           function sendPrompt() {
             const prompt = promptEl.value.trim();
 
             if (!prompt || isLoading) {
               return;
             }
-
-            messageStartTime = Date.now();
 
             // Add user message to chat
             addMessage('user', prompt);
@@ -487,57 +461,19 @@ export class SidebarProvider
 
             const avatarDiv = document.createElement('div');
             avatarDiv.className = \`message-avatar \${role}\`;
-            
-            const img = document.createElement('img');
-            img.src = role === 'user' ? userIconUri : aiIconUri;
-            img.alt = role === 'user' ? 'User' : 'AI';
-            avatarDiv.appendChild(img);
-
-            const wrapperDiv = document.createElement('div');
-            wrapperDiv.className = 'message-wrapper';
+            avatarDiv.textContent = role === 'user' ? '👤' : '⚡';
 
             const contentDiv = document.createElement('div');
             contentDiv.className = 'message-content';
-            
-            // Parse content for code blocks
-            contentDiv.innerHTML = parseContent(content);
+            contentDiv.textContent = content;
 
-            wrapperDiv.appendChild(contentDiv);
             messageDiv.appendChild(avatarDiv);
-            messageDiv.appendChild(wrapperDiv);
+            messageDiv.appendChild(contentDiv);
 
             chatContainer.appendChild(messageDiv);
             scrollToBottom();
 
             return contentDiv;
-          }
-
-          function parseContent(text) {
-            let html = escapeHtml(text);
-            
-            // Replace code blocks with formatted version
-            html = html.replace(/\`\`\`(\w+)?\n([\s\S]*?)\`\`\`/g, (match, language, code) => {
-              const lang = language || 'text';
-              const cleanCode = code.trim();
-              const encoded = cleanCode.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-              const codeBlockId = 'code-' + Math.random().toString(36).substr(2, 9);
-              
-              return \`<div class="code-block">
-                <div class="code-header">
-                  <span class="code-language">\${lang}</span>
-                  <button class="copy-btn" onclick="copyCode('\${codeBlockId}')">Copy</button>
-                </div>
-                <pre id="\${codeBlockId}"><code>\${encoded}</code></pre>
-              </div>\`;
-            });
-            
-            return html;
-          }
-
-          function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
           }
 
           function addLoadingIndicator() {
@@ -547,22 +483,14 @@ export class SidebarProvider
 
             const avatarDiv = document.createElement('div');
             avatarDiv.className = 'message-avatar assistant';
-            
-            const img = document.createElement('img');
-            img.src = aiIconUri;
-            img.alt = 'AI';
-            avatarDiv.appendChild(img);
-
-            const wrapperDiv = document.createElement('div');
-            wrapperDiv.className = 'message-wrapper';
+            avatarDiv.textContent = '⚡';
 
             const contentDiv = document.createElement('div');
             contentDiv.className = 'loading-indicator';
             contentDiv.innerHTML = '<div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div>';
 
-            wrapperDiv.appendChild(contentDiv);
             messageDiv.appendChild(avatarDiv);
-            messageDiv.appendChild(wrapperDiv);
+            messageDiv.appendChild(contentDiv);
 
             chatContainer.appendChild(messageDiv);
             scrollToBottom();
@@ -577,31 +505,14 @@ export class SidebarProvider
             chatContainer.scrollTop = chatContainer.scrollHeight;
           }
 
-          function copyCode(codeBlockId) {
-            const codeBlock = document.getElementById(codeBlockId);
-            const text = codeBlock.textContent;
-            
-            navigator.clipboard.writeText(text).then(() => {
-              const btn = event.target;
-              const originalText = btn.textContent;
-              btn.textContent = '✓ Copied';
-              btn.classList.add('copied');
-              
-              setTimeout(() => {
-                btn.textContent = originalText;
-                btn.classList.remove('copied');
-              }, 2000);
-            });
-          }
-
-          function formatTime(milliseconds) {
-            const seconds = Math.round(milliseconds / 1000);
-            if (seconds < 60) {
-              return seconds + 's';
-            }
-            const minutes = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return minutes + 'm ' + secs + 's';
+          function clearChat() {
+            chatContainer.innerHTML = \`
+              <div class="empty-state">
+                <div class="empty-state-icon">💬</div>
+                <h2>Start a conversation</h2>
+                <p>Ask anything and get instant answers powered by local AI</p>
+              </div>
+            \`;
           }
 
           window.addEventListener('message', event => {
@@ -615,33 +526,22 @@ export class SidebarProvider
                 loadingMsg.remove();
               }
 
-              let contentDiv = chatContainer.querySelector('.message.assistant:last-child .message-content');
-              if (!contentDiv) {
-                contentDiv = addMessage('assistant', '');
+              let assistantMsg = chatContainer.querySelector('.message.assistant:last-child');
+              if (!assistantMsg) {
+                assistantMsg = addMessage('assistant', '');
+              } else {
+                assistantMsg = assistantMsg.querySelector('.message-content');
               }
 
-              const currentText = contentDiv.textContent;
-              const newText = currentText + message.value;
-              contentDiv.textContent = newText;
-              scrollToBottom();
+              if (assistantMsg && typeof assistantMsg.textContent === 'string') {
+                assistantMsg.textContent += message.value;
+                scrollToBottom();
+              }
             } else if (message.type === 'streamEnd') {
               const loadingMsg = document.getElementById('loading-message');
               if (loadingMsg) {
                 loadingMsg.remove();
               }
-
-              // Add time indicator
-              const assistantMsg = chatContainer.querySelector('.message.assistant:last-child');
-              if (assistantMsg) {
-                const wrapper = assistantMsg.querySelector('.message-wrapper');
-                const timeDiv = document.createElement('div');
-                timeDiv.className = 'message-time';
-                
-                const elapsed = Date.now() - messageStartTime;
-                timeDiv.textContent = formatTime(elapsed);
-                wrapper.appendChild(timeDiv);
-              }
-
               isLoading = false;
               updateButtonState();
               promptEl.focus();

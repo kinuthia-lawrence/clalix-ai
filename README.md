@@ -1,60 +1,53 @@
-# Clalix AI
+# clalix-ai README
 
-Clalix AI is a VS Code extension that brings offline AI assistance to your editor using local Ollama models. Get instant answers and code suggestions without relying on internet connectivity.
+This is the README for your extension "clalix-ai". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 
-- **Offline AI Support**: Run entirely offline using Ollama (qwen2.5-coder:3b and other models)
-- **Real-time Streaming**: Watch responses stream in real-time as they're generated
-- **Code Highlighting**: Automatic syntax highlighting for code blocks with copy buttons
-- **Responsive Chat UI**: Clean, modern chat interface inspired by GitHub Copilot
-- **Response Timing**: See how long each response took to generate
-- **Keyboard Shortcuts**: Send messages with Ctrl/Cmd + Enter
+Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+
+For example if there is an image subfolder under your extension project workspace:
+
+\!\[feature X\]\(images/feature-x.png\)
+
+> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
 ## Requirements
 
-- **Ollama**: Download and install from [ollama.ai](https://ollama.ai)
-- **Qwen2.5-Coder Model**: Run `ollama pull qwen2.5-coder:3b` (or your preferred model)
-- **VS Code**: Version 1.120.0 or higher
+If you have any requirements or dependencies, add a section describing those and how to install and configure them.
 
-## Getting Started
+## Extension Settings
 
-1. Install Ollama and pull the qwen2.5-coder model:
-   ```bash
-   ollama pull qwen2.5-coder:3b
-   ollama serve
-   ```
+Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
 
-2. Install the Clalix AI extension in VS Code
+For example:
 
-3. Open the Clalix AI sidebar (⚡ icon) and start asking questions
+This extension contributes the following settings:
 
-## Usage
-
-- Type your question in the textarea
-- Press Send button (↑) or Ctrl/Cmd + Enter
-- Watch the response stream in real-time
-- Copy code blocks with a single click
-
-## Performance Notes
-
-- Optimized for CPU-only machines
-- Default model: qwen2.5-coder:3b (3 billion parameters)
-- Response time varies based on your hardware
+* `myExtension.enable`: Enable/disable this extension.
+* `myExtension.thing`: Set to `blah` to do something.
 
 ## Known Issues
 
-- Requires Ollama server running on http://localhost:11434
-- First response may take longer as model loads into memory
+Calling out known issues can help limit users opening duplicate issues against your extension.
 
 ## Release Notes
 
-### 0.0.1
+Users appreciate release notes as you update your extension.
 
-- Initial release with streaming support
-- Modern chat UI with code block handling
-- Response timing indicator
-- Keyboard shortcuts for quick interaction
+### 1.0.0
+
+Initial release of ...
+
+### 1.0.1
+
+Fixed issue #.
+
+### 1.1.0
+
+Added features X, Y, and Z.
+
+---
 
 ## Following extension guidelines
 
