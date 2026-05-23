@@ -1,0 +1,57 @@
+{
+  "name": "clalix-ai",
+  "displayName": "clalix-ai",
+  "description": "an offline chatembended ai support",
+  "version": "0.0.1",
+
+  "engines": {
+    "vscode": "^1.120.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "clalix-ai",
+          "title": "Clalix-AI",
+          "icon": "media/icon.png"
+        }
+      ]
+    },
+    "views": {
+      "clalix-ai": [
+        {
+          "icon": "icon.png",
+          "type": "webview",
+          "id": "clalix-ai.sidebar",
+          "name": "Assistant"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.120.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.39.3",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1"
+  },
+  "dependencies": {
+    "axios": "^1.16.1"
+  }
+}
